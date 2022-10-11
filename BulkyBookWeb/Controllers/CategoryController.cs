@@ -34,15 +34,18 @@ namespace BulkyBookWeb.Controllers
             if (category.Name.Length > maxLengthForName)
             {
                 ModelState.AddModelError("Name", $"The input Name cannot have more than {maxLengthForName} characters.");
+                TempData["ErrorMessage"] = "It was not possible to create a new category";
             }
             if (category.Name == category.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("CustomError", "The input DisplayOrder cannot exactly same as the input Name.");
+                TempData["ErrorMessage"] = "It was not possible to create a new category";
             }
             if (ModelState.IsValid)
             {
                 DbContext.Add(category);
                 DbContext.SaveChanges();
+                TempData["successMessage"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }  
             return View(category);
@@ -85,6 +88,7 @@ namespace BulkyBookWeb.Controllers
             {
                 DbContext.Update(category);
                 DbContext.SaveChanges();
+                TempData["successMessage"] = "Category edited successfully!";
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -125,6 +129,7 @@ namespace BulkyBookWeb.Controllers
 
             DbContext.Remove(categoryFromDb);
             DbContext.SaveChanges();
+            TempData["successMessage"] = "Category deleted successfully!";
             return RedirectToAction("Index");
         }
 
