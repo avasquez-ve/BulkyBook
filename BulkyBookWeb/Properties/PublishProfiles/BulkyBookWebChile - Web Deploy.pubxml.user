@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
+edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAJP1ExML0+kC5xTtDmYpvgQAAAAACAAAAAAAQZgAAAAEAACAAAAB/awhom5nbXLsLbM0xIFw9gPCRcs/UgekHTQgJQGmPWgAAAAAOgAAAAAIAACAAAABolSTtwM1OuOgrO0RJmeyDEtxwgTkJeDoSonWX+9AevoAAAACY5/eBsQi4Q7uSdzjyXbhF+T7i/KReA7FD+em//rpLJPOb0ANk034iBVo0rNJjOlgEhoW1Rh8B0RZS84sM2KyKRB0ROvPzugXmKjvf69AbYklYfLiaNL9LfUtkygKViUV5g7MeJb23AA6PP2KAQHkhmesriYhUfan4Wb57sRGszkAAAAAKYFW4yQD2EkT7HrsRQdhT6T+5jaA1pV3bPvFvqAtPU4Bpuw9lpKiiHhUYebo2aljgUXl77CQXQuw7f9UjSJtc</EncryptedPassword>
+    <History>True|2022-10-11T13:07:22.0539021Z;False|2022-10-11T10:01:40.1758826-03:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=tcp:dotnetmasterygood-server.database.windows.net,1433%3bInitial Catalog=dotnetmastery_db%3bPersist Security Info=False%3bUser ID=admin-dios%3bPassword=R1ll3s!23%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="BulkyBookWeb.Data.ApplicationDbContext">
+      <Value>Server=tcp:dotnetmasterygood-server.database.windows.net,1433%3bInitial Catalog=dotnetmastery_db%3bPersist Security Info=False%3bUser ID=admin-dios%3bPassword=R1ll3s!23%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

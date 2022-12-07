@@ -1,4 +1,4 @@
-﻿namespace BulkyBookWeb.Models.Configuration
+﻿namespace BulkyBook.Models.Configuration
 {
     public class AppTags : IAppTags
     {
