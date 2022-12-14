@@ -1,4 +1,5 @@
 ﻿using BulkyBook.DataAccess;
+using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +8,9 @@ namespace BulkyBookWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext DbContext;
+        private readonly ICategoryRepository DbContext;
         private readonly IConfiguration ConfigurationContext;
-        public CategoryController(ApplicationDbContext db, IConfiguration configuration)
+        public CategoryController(ICategoryRepository db, IConfiguration configuration)
         {
             DbContext = db;
             ConfigurationContext = configuration;
@@ -17,7 +18,7 @@ namespace BulkyBookWeb.Controllers
 
         public IActionResult Index()
         {
-            List<Category> categoryList = DbContext.Categories.ToList();
+            IEnumerable<Category> categoryList = DbContext.GetAll();
             return View(categoryList);
         }
 
@@ -44,7 +45,7 @@ namespace BulkyBookWeb.Controllers
             if (ModelState.IsValid)
             {
                 DbContext.Add(category);
-                DbContext.SaveChanges();
+                DbContext.Save();
                 TempData["successMessage"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }  
@@ -58,10 +59,10 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            var categoryFromDb = DbContext.Categories.Find(id);
+            //var categoryFromDb = DbContext.Categories.Find(id);
             //Diferent ways to return data using entity framework
-            //var categoryFromDb = DbContext.Categories.FirstOrDefault(x => x.Id == categoryId);
-            //var categoryFromDb = DbContext.Categories.SingleOrDefault(x => x.Id == categoryId);
+            var categoryFromDb = DbContext.GetFirstOrDefault(x => x.Id == id);
+            //var categoryFromDb = DbContext.Categories.SingleOrDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -87,7 +88,7 @@ namespace BulkyBookWeb.Controllers
             if (ModelState.IsValid)
             {
                 DbContext.Update(category);
-                DbContext.SaveChanges();
+                DbContext.Save();
                 TempData["successMessage"] = "Category edited successfully!";
                 return RedirectToAction("Index");
             }
@@ -101,7 +102,7 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            var categoryFromDb = DbContext.Categories.Find(id);
+            var categoryFromDb = DbContext.GetFirstOrDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -120,7 +121,7 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            var categoryFromDb = DbContext.Categories.Find(id);
+            var categoryFromDb = DbContext.GetFirstOrDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -128,7 +129,7 @@ namespace BulkyBookWeb.Controllers
             }
 
             DbContext.Remove(categoryFromDb);
-            DbContext.SaveChanges();
+            DbContext.Save();
             TempData["successMessage"] = "Category deleted successfully!";
             return RedirectToAction("Index");
         }
