@@ -8,17 +8,17 @@ namespace BulkyBookWeb.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository DbContext;
+        private readonly IUnitOfWork UnitOfWorkDbContext;
         private readonly IConfiguration ConfigurationContext;
-        public CategoryController(ICategoryRepository db, IConfiguration configuration)
+        public CategoryController(IUnitOfWork UnitOfWorkdb, IConfiguration configuration)
         {
-            DbContext = db;
+            UnitOfWorkDbContext = UnitOfWorkdb;
             ConfigurationContext = configuration;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> categoryList = DbContext.GetAll();
+            IEnumerable<Category> categoryList = UnitOfWorkDbContext.Categories.GetAll();
             return View(categoryList);
         }
 
@@ -44,8 +44,8 @@ namespace BulkyBookWeb.Controllers
             }
             if (ModelState.IsValid)
             {
-                DbContext.Add(category);
-                DbContext.Save();
+                UnitOfWorkDbContext.Categories.Add(category);
+                UnitOfWorkDbContext.Save();
                 TempData["successMessage"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }  
@@ -61,7 +61,7 @@ namespace BulkyBookWeb.Controllers
 
             //var categoryFromDb = DbContext.Categories.Find(id);
             //Diferent ways to return data using entity framework
-            var categoryFromDb = DbContext.GetFirstOrDefault(x => x.Id == id);
+            var categoryFromDb = UnitOfWorkDbContext.Categories.GetFirstOrDefault(x => x.Id == id);
             //var categoryFromDb = DbContext.Categories.SingleOrDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
@@ -87,8 +87,8 @@ namespace BulkyBookWeb.Controllers
             }
             if (ModelState.IsValid)
             {
-                DbContext.Update(category);
-                DbContext.Save();
+                UnitOfWorkDbContext.Categories.Update(category);
+                UnitOfWorkDbContext.Save();
                 TempData["successMessage"] = "Category edited successfully!";
                 return RedirectToAction("Index");
             }
@@ -102,7 +102,7 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            var categoryFromDb = DbContext.GetFirstOrDefault(x => x.Id == id);
+            var categoryFromDb = UnitOfWorkDbContext.Categories.GetFirstOrDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
             {
@@ -121,83 +121,17 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            var categoryFromDb = DbContext.GetFirstOrDefault(x => x.Id == id);
+            var categoryFromDb = UnitOfWorkDbContext.Categories.GetFirstOrDefault(x => x.Id == id);
 
             if (categoryFromDb == null)
             {
                 return NotFound();
             }
 
-            DbContext.Remove(categoryFromDb);
-            DbContext.Save();
+            UnitOfWorkDbContext.Categories.Remove(categoryFromDb);
+            UnitOfWorkDbContext.Save();
             TempData["successMessage"] = "Category deleted successfully!";
             return RedirectToAction("Index");
         }
-
-
-
-        //// GET: CategoryController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-
-        //// POST: CategoryController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: CategoryController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: CategoryController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: CategoryController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: CategoryController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }
