@@ -2,6 +2,7 @@
 *.suo
 *.user
 *.sln.docstates
+*.vs
 
 # Ignore build directories
 [Dd]ebug/
