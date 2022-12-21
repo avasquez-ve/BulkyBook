@@ -15,8 +15,11 @@ namespace BulkyBook.DataAccess.Repository
         {
             DbContext = dbContext;
             Categories = new CategoryRepository(DbContext);
+            CoverTypes = new CoverTypeRepository(DbContext);
         }
         public ICategoryRepository Categories { get; private set; }
+        public ICoverTypeRepository CoverTypes { get; private set; }
+
 
         public void Save()
         {

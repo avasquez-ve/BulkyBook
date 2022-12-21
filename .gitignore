@@ -1,4 +1,16 @@
-bin/
-obj/
-Debug/
-.vs/
+# Ignore Visual Studio user-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Ignore build directories
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+# Ignore NuGet package directories
+**/packages/
+
+# Ignore log files
+*.log
