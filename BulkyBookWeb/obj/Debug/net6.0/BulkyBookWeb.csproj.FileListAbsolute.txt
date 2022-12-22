@@ -565,3 +565,4 @@ C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\obj\Debug\net6.0\refint\Bulk
 C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\obj\Debug\net6.0\BulkyBookWeb.pdb
 C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\obj\Debug\net6.0\BulkyBookWeb.genruntimeconfig.cache
 C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\obj\Debug\net6.0\ref\BulkyBookWeb.dll
+C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\bin\Debug\net6.0\System.Reflection.MetadataLoadContext.dll
