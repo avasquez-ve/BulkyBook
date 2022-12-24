@@ -9,6 +9,8 @@
 [Rr]elease/
 [Bb]in/
 [Oo]bj/
+**/bin/
+**/obj/
 
 # Ignore NuGet package directories
 **/packages/
