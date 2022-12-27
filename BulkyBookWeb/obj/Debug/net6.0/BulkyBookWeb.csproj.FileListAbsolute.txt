@@ -566,3 +566,5 @@ C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\obj\Debug\net6.0\BulkyBookWe
 C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\obj\Debug\net6.0\BulkyBookWeb.genruntimeconfig.cache
 C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\obj\Debug\net6.0\ref\BulkyBookWeb.dll
 C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\bin\Debug\net6.0\System.Reflection.MetadataLoadContext.dll
+C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Arnell\source\repos\BulkyBook\BulkyBookWeb\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
