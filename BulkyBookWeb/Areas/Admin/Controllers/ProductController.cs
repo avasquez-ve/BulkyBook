@@ -58,26 +58,23 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upsert(Product Product)
+        public ActionResult Upsert(ProductVM product, IFormFile file)
         {
             int maxLengthForName = ConfigurationContext.GetValue<int>("Apptags:MaxLengthForName");
-            if (Product.Title.Length > maxLengthForName)
-            {
-                ModelState.AddModelError("Name", $"The input Name cannot have more than {maxLengthForName} characters.");
-                TempData["ErrorMessage"] = "It was not possible to edit the cover type";
-            }
+            //if (product.Title.Length > maxLengthForName)
+            //{
+            //    ModelState.AddModelError("Name", $"The input Name cannot have more than {maxLengthForName} characters.");
+            //    TempData["ErrorMessage"] = "It was not possible to edit the cover type";
+            //}
             if (ModelState.IsValid)
             {
-                UnitOfWorkDbContext.Products.Update(Product);
+                //UnitOfWorkDbContext.Products.Update(Product);
                 UnitOfWorkDbContext.Save();
                 TempData["successMessage"] = "Cover type edited successfully!";
                 return RedirectToAction("Index");
             }
-            else
-            {
 
-                return RedirectToAction("Index");
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: ProductController/Delete/5
