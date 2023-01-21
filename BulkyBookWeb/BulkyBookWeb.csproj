@@ -19,4 +19,8 @@
     <ProjectReference Include="..\BulkyBookWeb.DataAccess\BulkyBook.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\products\" />
+  </ItemGroup>
+
 </Project>

@@ -12,11 +12,13 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
     {
         private readonly IUnitOfWork UnitOfWorkDbContext;
         private readonly IConfiguration ConfigurationContext;
+        private readonly IWebHostEnvironment HostEnvironment;
 
-        public ProductController(IUnitOfWork UnitOfWorkDb, IConfiguration configuration)
+        public ProductController(IUnitOfWork UnitOfWorkDb, IConfiguration configuration, IWebHostEnvironment hostEnvironment)
         {
             UnitOfWorkDbContext = UnitOfWorkDb;
             ConfigurationContext = configuration;
+            HostEnvironment = hostEnvironment;
         }
 
         public ActionResult Index()
@@ -58,19 +60,36 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upsert(ProductVM product, IFormFile file)
+        public ActionResult Upsert(ProductVM product, IFormFile? file)
         {
-            int maxLengthForName = ConfigurationContext.GetValue<int>("Apptags:MaxLengthForName");
-            //if (product.Title.Length > maxLengthForName)
-            //{
-            //    ModelState.AddModelError("Name", $"The input Name cannot have more than {maxLengthForName} characters.");
-            //    TempData["ErrorMessage"] = "It was not possible to edit the cover type";
-            //}
             if (ModelState.IsValid)
             {
-                //UnitOfWorkDbContext.Products.Update(Product);
+                string wwwRootPath = HostEnvironment.WebRootPath;
+
+                if (file != null)
+                {
+                    string randomFileName = Guid.NewGuid().ToString();
+                    string imageProductFolder = ConfigurationContext.GetValue<string>("Apptags:imageProductFolder");
+                    var uploadFolder = Path.Combine(wwwRootPath, imageProductFolder);
+                    var fileExtension = Path.GetExtension(file.FileName);
+
+                    if (fileExtension != ".jpg" || fileExtension != ".png")
+                    {
+                        TempData["ErrorMessage"] = "Only images with .jpg or .png extensions are valid.";
+                        return RedirectToAction("Index");
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(uploadFolder, randomFileName + fileExtension), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    product.Product.ImageUrl = $"{imageProductFolder}/{randomFileName}/{fileExtension}"; 
+
+                }
+                UnitOfWorkDbContext.Products.Add(product.Product);
                 UnitOfWorkDbContext.Save();
-                TempData["successMessage"] = "Cover type edited successfully!";
+                TempData["successMessage"] = "Product created successfully!";
                 return RedirectToAction("Index");
             }
 
