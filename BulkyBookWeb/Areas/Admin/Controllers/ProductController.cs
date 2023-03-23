@@ -94,6 +94,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index");
+
         }
 
         // GET: ProductController/Delete/5
