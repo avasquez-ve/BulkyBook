@@ -25,16 +25,21 @@ namespace BulkyBook.Models
         [Required]
         [Range(0, 100000)]
         public double PriceFor100 { get; set; }
+
+        [ValidateNever]
         public string ImageUrl { get; set; }
         
         [Required]
         public int CategoryId { get; set; }
+
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
 
         [Required]
         public int CoverTypeId { get; set; }
+
+        [ValidateNever]
         public CoverType CoverType { get; set; }
 
 

@@ -21,12 +21,12 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             HostEnvironment = hostEnvironment;
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Upsert(int? id)
+        public IActionResult Upsert(int? id)
         {
             ProductVM productVM = new()
             {
@@ -60,7 +60,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Upsert(ProductVM product, IFormFile? file)
+        public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     var uploadFolder = Path.Combine(wwwRootPath, imageProductFolder);
                     var fileExtension = Path.GetExtension(file.FileName);
 
-                    if (fileExtension != ".jpg" || fileExtension != ".png")
+                    if (fileExtension != ".jpg" && fileExtension != ".png")
                     {
                         TempData["ErrorMessage"] = "Only images with .jpg or .png extensions are valid.";
                         return RedirectToAction("Index");
@@ -84,10 +84,10 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                         file.CopyTo(fileStream);
                     }
 
-                    product.Product.ImageUrl = $"{imageProductFolder}/{randomFileName}/{fileExtension}"; 
+                    productVM.Product.ImageUrl = $"{imageProductFolder}/{randomFileName}/{fileExtension}"; 
 
                 }
-                UnitOfWorkDbContext.Products.Add(product.Product);
+                UnitOfWorkDbContext.Products.Add(productVM.Product);
                 UnitOfWorkDbContext.Save();
                 TempData["successMessage"] = "Product created successfully!";
                 return RedirectToAction("Index");
@@ -98,7 +98,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
 
         // GET: ProductController/Delete/5
-        public ActionResult Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null || id <= 0)
             {
@@ -118,7 +118,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         // POST: ProductController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeletePost(int? id)
+        public IActionResult DeletePost(int? id)
         {
             try
             {
