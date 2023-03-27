@@ -16,3 +16,34 @@ html {
 body {
   margin-bottom: 60px;
 }
+/*Loader*/
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loader {
+    border: 5px solid rgba(52, 152, 219, 0.5);
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+.loading-text {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

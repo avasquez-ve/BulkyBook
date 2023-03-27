@@ -53,14 +53,14 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             else
             {
                 //update
+                productVM.Product = UnitOfWorkDbContext.Products.GetFirstOrDefault(x => x.Id == id);
+                return View(productVM);
             }
-
-            return View(productVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(ProductVM productVM, IFormFile? file)
+        public IActionResult Upsert(ProductVM productObj, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -79,15 +79,35 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                         return RedirectToAction("Index");
                     }
 
+                    if (!string.IsNullOrEmpty(productObj.Product.ImageUrl))
+                    {
+                        var oldPathFile = Path.Combine(wwwRootPath, productObj.Product.ImageUrl);
+                        oldPathFile = Path.Combine(wwwRootPath, productObj.Product.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldPathFile))
+                        {
+                            System.IO.File.Delete(oldPathFile);
+                        }
+                    }
+
                     using (var fileStream = new FileStream(Path.Combine(uploadFolder, randomFileName + fileExtension), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
 
-                    productVM.Product.ImageUrl = $"{imageProductFolder}/{randomFileName}/{fileExtension}"; 
+                    productObj.Product.ImageUrl = @$"images/products/{randomFileName}{fileExtension}"; 
 
                 }
-                UnitOfWorkDbContext.Products.Add(productVM.Product);
+
+                if (productObj.Product.Id == 0)
+                {
+                    UnitOfWorkDbContext.Products.Add(productObj.Product);
+                }
+                else
+                {
+                    UnitOfWorkDbContext.Products.Update(productObj.Product);
+                }
+
                 UnitOfWorkDbContext.Save();
                 TempData["successMessage"] = "Product created successfully!";
                 return RedirectToAction("Index");
