@@ -149,5 +149,14 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = UnitOfWorkDbContext.Products.GetAll("CoverType, Category");
+            return Json(new { data = productList });
+        }
+        #endregion
     }
 }
