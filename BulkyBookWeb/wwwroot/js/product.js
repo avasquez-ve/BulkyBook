@@ -1,4 +1,6 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿let table;
+
+document.addEventListener("DOMContentLoaded", function () {
     getAllProducts();
 });
 
@@ -15,11 +17,8 @@ function getAllProducts() {
     })
     .then(json => {
         products = json.data;
-        let table = new DataTable("#tblProductData", {
+        table = new DataTable("#tblProductData", {
             responsive: true,
-            initComplete: function () {
-                document.querySelector("#tblProductData .loading-container").style.display = "none";
-            },
             data: products,
             columns: [
                 { data: "title", "width": "15%" },
@@ -36,7 +35,7 @@ function getAllProducts() {
                                 <a href="/Admin/Product/Upsert?id=${currentId}" class="btn btn-primary mx-2">
                                     <i class="bi-pencil-square"></i>&nbsp; Edit
                                 </a>
-                                <a href="/Admin/Product/Delete?id=${currentId}" class="btn btn-danger mx-2">
+                                <a onClick=deleteProduct('/Admin/Product/Delete/${currentId}') class="btn btn-danger mx-2">
                                     <i class="bi-trash"></i>&nbsp; Delete
                                 </a>
                             </div>
@@ -49,5 +48,41 @@ function getAllProducts() {
     })
     .catch(error => {
         console.error("Error fetching products", error);
+    });
+}
+
+function deleteProduct(url) {
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover the product.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            fetch(url, {
+                method: "DELETE"
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Http Error. Status: ${response.status}`);
+                }
+
+                return response.json();
+            })
+            .then(json => {
+                if (!json.success) {
+                    toastr.error(json.message);
+                } else {
+                    table.ajax.url("Product/GetAll").load();
+                    toastr.success(json.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching products", error);
+                toastr.error("Error fetching products");
+            });
+        }
     });
 }
